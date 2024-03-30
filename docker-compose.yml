@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  app:
+    container_name: uyaction
+    image: uyaction
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresqldb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/studentdb
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  postgresqldb:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=studentdb
+
+
