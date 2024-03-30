@@ -8,72 +8,14 @@
 ![](https://img.shields.io/badge/spring_boot-✓-blue.svg)
 ![](https://img.shields.io/badge/postsq-✓-blue.svg)
 ![](https://img.shields.io/badge/jwt-✓-blue.svg)
+![](https://img.shields.io/badge/Docker-✓-blue.svg)
 
 ***
 
 <h3 align="center">Please help this repo with a :star: if you find it useful! :blush:</h3>
 
 ***
-
-# File structure
-
-```
-spring-boot-jwt/
- │
- ├── src/main/java/com/web/
- │   └── backend
- │       ├── controller
- │       │   └── AuthRestAPIs.java
- │       │   └── TestRestAPIs.java
- │       │
- │       ├── exception
- │       │   └──  EmailAlreadyExistsException.java
- │       │   └── GroupAlreadyExistsException.java
- │       │   ├── RoleNotFoundException.java
- │       │   └── UsernameAlreadyExistsException.java
- │       │
- │       ├── payload
- │ 		 │       ├── request
- │		 │       │   └── LoginRequest.java
- │		 │       │   └── SignupRequest.java
- │		 │		 │
- │ 		 │       └── response
- │       │   	 	 └── JwtResponse.java
- │       │           └── MessageResponse.java
- │       │
- │       ├── model
- │       │   └──  Role.java
- │       │   └── RoleName.java
- │       │   └── User.java
- │       │
- │       ├── repository
- │       │   └── RoleRepository.java
- │       │   └── UserRepository.java
- │       │
- │       ├── security
- │ 		 │       ├── service
- │		 │       │   └── UserDetailsServiceImpl.java
- │		 │       │   └── UserPrinciple.java
- │		 │		 │
- │ 		 │       ├── jwt
- │       │   	 │	 └── JwtAuthenticationSuccessHandler.java
- │       │       │   └── JwtAuthEntryPoint.java
- │       │       │   └── JwtAuthTokenFilter.java
- │       │       │   └── JwtProvider.java
- │       │       │
- │       │ 		 └── WebSecurityConfig.java
- │       │
- │       └──BackendApplication.java
- │
- ├── src/main/resources/
- │   └── application.properties
- │
- ├── .gitignore
- ├── LICENSE
- ├── mvnw/mvnw.cmd
- ├── README.md
- └── pom.xml
-```
+ 
 
 # Introduction (https://jwt.io)
 
@@ -398,10 +340,4 @@ $ curl -X GET http://localhost:8080/users/me -H 'Authorization: Bearer <JWT_TOKE
   ]
 }
 ```
-
-# Contribution
-
-- Report issues
-- Open pull request with improvements
-- Spread the word
-- Reach out to me directly at <mauriurraco@gmail.com>
+ 
