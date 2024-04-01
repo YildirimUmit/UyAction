@@ -26,7 +26,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <modelmapper.version>2.3.0</modelmapper.version>
         <spring-swagger2.version>2.9.2</spring-swagger2.version>
-
+        <springfox.version>2.9.2</springfox.version> <!-- Use 2.7.0 to use Swagger 1 looks -->
     </properties>
 
     <dependencies>
@@ -93,22 +93,23 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
         </dependency>
-
-
-        <!-- end-->
-
-        <!-- swagger start used to describe and document RESTful APIs -->
-<!--        http://localhost:8080/your-app-root/swagger-ui/-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${spring-swagger2.version}</version>
+            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${spring-swagger2.version}</version>
+            <version>${springfox.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+
+
         <!-- swagger end -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -173,6 +174,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.1.1.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
 
