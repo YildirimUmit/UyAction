@@ -1,0 +1,8 @@
+{
+  "name": "uyaction",
+  "buildpacks": [
+    {
+      "url": "https://github.com/YildirimUmit/UyAction"
+    }
+  ]
+}
