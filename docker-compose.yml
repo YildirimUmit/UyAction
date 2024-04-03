@@ -6,20 +6,20 @@ services:
     build: ./
     ports:
       - "8080:8080"
-    depends_on:
-      - postgresqldb
+#    depends_on:
+#      - postgresqldb
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/studentdb
+      - POSTGRES_USER=u5j83ljpqo8vh5
+      - POSTGRES_PASSWORD=p82397e37330071fbc82a2aa71a629b7a13c3f42369e1aed8a6264c8eb414e558
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://c7gljno857ucsl.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d3c7chn80nr4ud
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-  postgresqldb:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=studentdb
+#  postgresqldb:
+#    image: postgres
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_DB=studentdb
 
 
