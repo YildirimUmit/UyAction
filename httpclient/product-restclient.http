@@ -1,0 +1,47 @@
+###
+POST http://{{HOST}}/api/auth/signin
+Content-Type: application/json
+
+{
+  "username": "umit",
+  "password": "123456"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.log("Logging Bearer Token.");
+    client.log("Bearer " + response.body.token);
+%}
+
+
+
+
+###
+GET http://{{HOST}}/api/1.0/product/products
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+<> 2024-04-05T215444.401.json
+<> 2024-04-05T215443.401.json
+<> 2024-04-05T215007.401.json
+<> 2024-04-05T214947.401.json
+<> 2024-04-05T214757.401.json
+<> 2024-04-05T214607.401.json
+<> 2024-04-05T214435.401.json
+<> 2024-04-05T214416.401.json
+<> 2024-04-05T212413.500.json
+<> 2024-04-05T212138.500.json
+
+###
+POST http://{{HOST}}/api/1.0/product/create
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "productName": "TEST2",
+  "quantity": 2,
+  "price": 100
+}
+

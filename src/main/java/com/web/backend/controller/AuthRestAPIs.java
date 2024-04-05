@@ -56,7 +56,6 @@ public class AuthRestAPIs {
 
 
         UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
-        System.err.println(userDetails.getUsername());
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
