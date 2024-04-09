@@ -12,6 +12,8 @@ import com.web.backend.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class ProductController {
     private final IProductRepositoryService productRepositoryService;
+
+    @Autowired
+    ModelMapper modelMapper=null;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/create")
@@ -106,6 +111,7 @@ class ProductController {
                                                               @PathVariable("productId") Long productId) {
         log.debug("[{}][deleteProduct] -> request productId: {}", this.getClass().getSimpleName(), productId);
         Product product = productRepositoryService.deleteProduct(language, productId);
+
         ProductResponse productResponse = convertProductResponse(product);
         log.debug("[{}][deleteProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
         return InternalApiResponse.<ProductResponse>builder()
@@ -126,8 +132,9 @@ class ProductController {
                         .productName(arg.getProductName())
                         .quantity(arg.getQuantity())
                         .price(arg.getPrice())
-                        .productCreatedDate(arg.getProductCreatedDate().getTime())
-                        .productUpdatedDate(arg.getProductUpdatedDate().getTime())
+                        .category(arg.getCategories())
+//                        .productCreatedDate(arg.getCreatedAt().getTime())
+//                        .productUpdatedDate(arg.getUpdateAt().getTime())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -138,8 +145,9 @@ class ProductController {
                 .productName(product.getProductName())
                 .quantity(product.getQuantity())
                 .price(product.getPrice())
-                .productCreatedDate(product.getProductCreatedDate().getTime())
-                .productUpdatedDate(product.getProductUpdatedDate().getTime())
+                .productCreatedDate(product.getCreatedAt().getTime())
+                .productUpdatedDate(product.getUpdateAt().getTime())
+                .category(product.getCategories())
                 .build();
     }
 

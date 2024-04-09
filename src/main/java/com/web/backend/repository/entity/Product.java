@@ -1,51 +1,44 @@
 package com.web.backend.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 
 @Data
 @Builder
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product extends BaseEntity {
 
     @Id
-    @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id", nullable = false)
     private long productId;
 
     @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private double price;
 
-    @Builder.Default
-    @Column(name = "product_updated_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date productUpdatedDate = new Date();
-
-    @Builder.Default
-    @Column(name = "product_created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date productCreatedDate = new Date();
-
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted", nullable = false)
     private boolean deleted;
 
+    @Column(name = "color")
+    private String color;
+
+    @ManyToMany
+    @JoinTable(name = "product_categories",
+            joinColumns = @JoinColumn(name = "product_product_id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id"))
+    private List<Category> categories = new ArrayList<>();
 
 }

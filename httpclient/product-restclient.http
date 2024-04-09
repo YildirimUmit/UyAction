@@ -13,9 +13,6 @@ Content-Type: application/json
     client.log("Bearer " + response.body.token);
 %}
 
-
-
-
 ###
 GET http://{{HOST}}/api/1.0/product/products
 Content-Type: application/json
@@ -44,4 +41,17 @@ Content-Language: TR
   "quantity": 2,
   "price": 100
 }
+
+###
+POST http://{{HOST}}/api/1.0/category/create
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "catagoryName": "Test3",
+  "description": "test3",
+  "status": false
+}
+
 

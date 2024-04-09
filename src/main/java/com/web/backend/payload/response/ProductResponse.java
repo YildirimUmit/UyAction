@@ -1,8 +1,11 @@
 package com.web.backend.payload.response;
 
+import com.web.backend.repository.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.*;
 
 @Data
 @Builder
@@ -14,4 +17,5 @@ public class ProductResponse {
     private Double price;
     private Long productCreatedDate;
     private Long productUpdatedDate;
+    private List<Category> category;
 }

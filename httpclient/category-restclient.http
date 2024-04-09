@@ -1,0 +1,49 @@
+###
+POST http://{{HOST}}/api/auth/signin
+Content-Type: application/json
+
+{
+  "username": "umit",
+  "password": "123456"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.log("Logging Bearer Token.");
+    client.log("Bearer " + response.body.token);
+%}
+
+###
+POST http://{{HOST}}/api/1.0/category/create
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "catagoryName": "Test13",
+  "description": "test13",
+  "status": false
+}
+
+
+###
+GET http://{{HOST}}/api/1.0/category/get/2
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+
+
+###
+PUT http://{{HOST}}/api/1.0/category/update
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "catagoryName": "Test yeni 8",
+  "description": "test yeni 8",
+  "status": false,
+  "id": "59"
+
+}

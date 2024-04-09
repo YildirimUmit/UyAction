@@ -67,8 +67,8 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
         product.setProductName(productUpdateRequest.getProductName());
         product.setQuantity(productUpdateRequest.getQuantity());
         product.setPrice(productUpdateRequest.getPrice());
-        product.setProductCreatedDate(product.getProductCreatedDate());
-        product.setProductUpdatedDate(new Date());
+        product.setCreatedAt(product.getCreatedAt());
+        product.setUpdateAt(new Date());
         Product productResponse = productRepository.save(product);
         log.debug("[{}][updateProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
         return productResponse;
@@ -81,7 +81,7 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
         try {
             product = getProduct(language, productId);
             product.setDeleted(true);
-            product.setProductUpdatedDate(new Date());
+            product.setUpdateAt(new Date());
             Product productResponse = productRepository.save(product);
             log.debug("[{}][deleteProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
             return productResponse;

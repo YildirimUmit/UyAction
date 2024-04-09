@@ -7,7 +7,7 @@ import org.springframework.stereotype.*;
 
 import java.util.*;
 
-@Repository
+
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product getByProductIdAndDeletedFalse(Long productId);
