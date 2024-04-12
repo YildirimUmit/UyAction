@@ -16,5 +16,5 @@ public class ProductResponse {
     private Long productCreatedDate;
     private Long productUpdatedDate;
     private List<ProductUtil> productUtils;
-    private  List<Category> categories;
+    private  List<ProductCategory> productCategories;
 }

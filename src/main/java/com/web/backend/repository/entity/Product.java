@@ -32,10 +32,8 @@ public class Product extends BaseEntity {
     @Column(name = "brand")
     private String brand;
 
-    @ManyToMany
-    @JoinTable(name = "product_categories",
-            joinColumns = @JoinColumn(name = "product_product_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Category> categories = new ArrayList<>();
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "product_id")
+    private List<ProductCategory> productCategories = new ArrayList<>();
 
 }

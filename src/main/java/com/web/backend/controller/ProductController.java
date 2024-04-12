@@ -191,6 +191,7 @@ class ProductController {
                         .productId(arg.getProductId())
                         .productName(arg.getProductName())
                         .productUtils(arg.getProductUtils())
+                        .productCategories(arg.getProductCategories())
 //                        .productCreatedDate(arg.getCreatedAt().getTime())
 //                        .productUpdatedDate(arg.getUpdateAt().getTime())
                         .build())

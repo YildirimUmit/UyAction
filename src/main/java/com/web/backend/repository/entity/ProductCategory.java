@@ -3,6 +3,7 @@ package com.web.backend.repository.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Getter
 @Setter
@@ -19,5 +20,6 @@ public class ProductCategory {
 
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
+
 
 }

@@ -9,7 +9,7 @@ import java.util.*;
 @Setter
 @Entity
 @Table(name = "category")
-public class Category extends BaseEntity {
+public class   Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,6 +21,7 @@ public class Category extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
 
 
 }
