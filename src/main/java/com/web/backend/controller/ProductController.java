@@ -2,6 +2,7 @@ package com.web.backend.controller;
 
 
 
+import com.web.backend.dto.*;
 import com.web.backend.enums.*;
 import com.web.backend.exception.enums.*;
 import com.web.backend.exception.utils.*;
@@ -9,6 +10,7 @@ import com.web.backend.payload.response.*;
 import com.web.backend.repository.entity.*;
 import com.web.backend.request.*;
 import com.web.backend.service.*;
+import com.web.backend.service.impl.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.*;
+import javax.validation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class ProductController {
     private final IProductRepositoryService productRepositoryService;
+    private final ProductCategoryServiceImpl productCategoryService;
+    private final ProductUtilServiceImpl productUtilService;
+
 
     @Autowired
     ModelMapper modelMapper=null;
@@ -34,7 +40,7 @@ class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/create")
     public InternalApiResponse<ProductResponse> createProduct(
-                                                              @RequestBody ProductCreateRequest productCreateRequest,
+                                                             @Valid @RequestBody ProductCreateRequest productCreateRequest,
                                                               @RequestHeader("Content-Language") Language language) {
         log.debug("[{}][createProduct] -> request: {}", this.getClass().getSimpleName(), productCreateRequest);
         Product product = productRepositoryService.createProduct(language, productCreateRequest);
@@ -125,14 +131,66 @@ class ProductController {
                 .build();
     }
 
+    // ---------------------- Product Category -------------------------------
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(value = "/productcategory/create")
+    public InternalApiResponse<ProductCategory> productCategory(@RequestHeader("Content-Language") Language language,
+                                                           @RequestBody ProductCategory productCategory) {
+        ProductCategory productCategoryResponse=  productCategoryService.createProductCategory(language,productCategory);
+        return InternalApiResponse.<ProductCategory>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.PRODUCT_SUCCESSFULLY_DELETED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(productCategoryResponse)
+                .build();
+    }
+
+
+    // ---------------------- Product Util-------------------------------
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(value = "/productutil/create")
+    public InternalApiResponse<ProductUtilDto> createProductUtil(@RequestHeader("Content-Language") Language language,
+                                                        @RequestBody ProductUtilDto productUtilDto){
+
+        ProductUtil productUtil=productUtilService.createProductUtil(language,productUtilDto);
+        ProductUtilDto productUtilDto1=modelMapper.map(productUtil,ProductUtilDto.class);
+        return InternalApiResponse.<ProductUtilDto>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.PRODUCT_SUCCESSFULLY_DELETED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(productUtilDto1)
+                .build();
+
+    }
+
+//    @ResponseStatus(HttpStatus.OK)
+//    @PutMapping(value = "/update/}")
+//    public InternalApiResponse<ProductResponse> updateProductUtil(@RequestHeader("Content-Language") Language language,
+//                                                                  @RequestBody ProductUtilDto productUtilDto){
+//
+//
+//
+//
+//    }
+
+
+
+
+
     private List<ProductResponse> convertProductResponseList(List<Product> productList) {
         return productList.stream()
                 .map(arg -> ProductResponse.builder()
                         .productId(arg.getProductId())
                         .productName(arg.getProductName())
-                        .quantity(arg.getQuantity())
-                        .price(arg.getPrice())
-                        .category(arg.getCategories())
+                        .productUtils(arg.getProductUtils())
 //                        .productCreatedDate(arg.getCreatedAt().getTime())
 //                        .productUpdatedDate(arg.getUpdateAt().getTime())
                         .build())
@@ -143,11 +201,9 @@ class ProductController {
         return ProductResponse.builder()
                 .productId(product.getProductId())
                 .productName(product.getProductName())
-                .quantity(product.getQuantity())
-                .price(product.getPrice())
                 .productCreatedDate(product.getCreatedAt().getTime())
                 .productUpdatedDate(product.getUpdateAt().getTime())
-                .category(product.getCategories())
+
                 .build();
     }
 

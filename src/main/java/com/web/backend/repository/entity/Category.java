@@ -22,4 +22,5 @@ public class Category extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+
 }

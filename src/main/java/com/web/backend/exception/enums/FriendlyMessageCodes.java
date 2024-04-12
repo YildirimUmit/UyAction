@@ -15,7 +15,8 @@ public enum FriendlyMessageCodes implements IFriendlyMessageCode {
     NOT_CREATED_EXCEPTION(1506),
 
     SUCCESSFULLY_CREATED(1507),
-    SUCCESSFULLY_UPDATED(1508);
+    SUCCESSFULLY_UPDATED(1508),
+    SUCCESSFULLY_DELETED(1509);
     private final int value;
 
     FriendlyMessageCodes(int value) {

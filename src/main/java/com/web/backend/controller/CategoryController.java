@@ -86,7 +86,26 @@ public class CategoryController {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/delete")
+    public InternalApiResponse<CategoryDto> daleteCategory( @RequestBody CategoryDto categoryDto,
+                                                            @RequestHeader("Content-Language") Language language){
+        log.debug("[{}][daleteCategory] -> request: {} {}", this.getClass().getSimpleName(), categoryDto.getId(), categoryDto);
+        categoryDto.setId(categoryDto.getId());
+        Optional<Category> category=categoryRepositoryService.deleteCategory(language,categoryDto) ;
+        CategoryDto categoryDto1=modelMapper.map(category.get(),CategoryDto.class);
+        log.debug("[{}][daleteCategory] -> response: {}", this.getClass().getSimpleName(), categoryDto);
+        return InternalApiResponse.<CategoryDto>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESSFULLY_DELETED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(categoryDto1)
+                .build();
 
+    }
 
 
 

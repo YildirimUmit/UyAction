@@ -20,14 +20,14 @@ Authorization: {{auth_token}}
 Content-Language: TR
 
 {
-  "catagoryName": "Test13",
+  "catagoryName": "Test14",
   "description": "test13",
   "status": false
 }
 
 
 ###
-GET http://{{HOST}}/api/1.0/category/get/2
+GET http://{{HOST}}/api/1.0/category/get/59
 Content-Type: application/json
 Authorization: {{auth_token}}
 Content-Language: TR
@@ -36,6 +36,20 @@ Content-Language: TR
 
 ###
 PUT http://{{HOST}}/api/1.0/category/update
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "catagoryName": "Test yeni 8",
+  "description": "test yeni 8",
+  "status": false,
+  "id": "59"
+
+}
+
+###
+PUT http://{{HOST}}/api/1.0/category/delete
 Content-Type: application/json
 Authorization: {{auth_token}}
 Content-Language: TR

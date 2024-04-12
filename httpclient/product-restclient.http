@@ -37,10 +37,29 @@ Authorization: {{auth_token}}
 Content-Language: TR
 
 {
-  "productName": "TEST2",
-  "quantity": 2,
-  "price": 100
+  "productName": "Skye Clean Beyaz Kadın Sneake 1",
+  "quantity": 20,
+  "brand": "Puma"
 }
+
+
+
+###
+POST http://localhost:8080/api/1.0/product/productutil/create
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "price": 100,
+  "status": false,
+  "color": "#ffa500",
+  "productId": 1,
+  "quantity": 10,
+  "size": "XL"
+}
+
+
 
 ###
 POST http://{{HOST}}/api/1.0/category/create
@@ -55,3 +74,14 @@ Content-Language: TR
 }
 
 
+###
+POST http://localhost:8080/api/1.0/product/productcategory/create
+Content-Type: application/json
+Authorization: {{auth_token}}
+Content-Language: TR
+
+{
+  "categoryId":1,
+  "productId": 1
+
+}

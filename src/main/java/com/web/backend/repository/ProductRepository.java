@@ -10,7 +10,10 @@ import java.util.*;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Product getByProductIdAndDeletedFalse(Long productId);
+    Product getByProductIdAndStatusFalse(Long productId);
 
-    List<Product> getAllByDeletedFalse();
+    List<Product> getAllByStatusFalse();
+
+
+
 }

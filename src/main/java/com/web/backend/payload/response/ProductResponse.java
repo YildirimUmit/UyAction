@@ -13,9 +13,8 @@ import java.util.*;
 public class ProductResponse {
     private Long productId;
     private String productName;
-    private Integer quantity;
-    private Double price;
     private Long productCreatedDate;
     private Long productUpdatedDate;
-    private List<Category> category;
+    private List<ProductUtil> productUtils;
+    private  List<Category> categories;
 }

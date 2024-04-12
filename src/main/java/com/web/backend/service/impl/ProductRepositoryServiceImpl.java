@@ -10,6 +10,7 @@ import com.web.backend.request.*;
 import com.web.backend.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,17 +20,14 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ProductRepositoryServiceImpl implements IProductRepositoryService {
     private final ProductRepository productRepository;
+    private final ModelMapper modelMapper;
+
 
     @Override
     public Product createProduct(Language language, ProductCreateRequest productCreateRequest) {
         log.debug("[{}][createProduct] -> request: {}", this.getClass().getSimpleName(), productCreateRequest);
         try {
-            Product product = Product.builder()
-                    .productName(productCreateRequest.getProductName())
-                    .quantity(productCreateRequest.getQuantity())
-                    .price(productCreateRequest.getPrice())
-                    .deleted(false)
-                    .build();
+            Product product = modelMapper.map(productCreateRequest,Product.class);
             Product productResponse = productRepository.save(product);
             log.debug("[{}][createProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
             return productResponse;
@@ -41,7 +39,7 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
     @Override
     public Product getProduct(Language language, Long productId) {
         log.debug("[{}][getProduct] -> request productId: {}", this.getClass().getSimpleName(), productId);
-        Product product = productRepository.getByProductIdAndDeletedFalse(productId);
+        Product product = productRepository.getByProductIdAndStatusFalse(productId);
         if (Objects.isNull(product)) {
             throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION, "Product not found for product id: " + productId);
         }
@@ -52,7 +50,7 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
     @Override
     public List<Product> getProducts(Language language) {
         log.debug("[{}][getProducts]", this.getClass().getSimpleName());
-        List<Product> products = productRepository.getAllByDeletedFalse();
+        List<Product> products = productRepository.getAllByStatusFalse();
         if (products.isEmpty()) {
             throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION, "Products not found");
         }
@@ -65,8 +63,6 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
         log.debug("[{}][updateProduct] -> request: {} {}", this.getClass().getSimpleName(), productId, productUpdateRequest);
         Product product = getProduct(language, productId);
         product.setProductName(productUpdateRequest.getProductName());
-        product.setQuantity(productUpdateRequest.getQuantity());
-        product.setPrice(productUpdateRequest.getPrice());
         product.setCreatedAt(product.getCreatedAt());
         product.setUpdateAt(new Date());
         Product productResponse = productRepository.save(product);
@@ -80,7 +76,7 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
         Product product;
         try {
             product = getProduct(language, productId);
-            product.setDeleted(true);
+            product.setStatus(true);
             product.setUpdateAt(new Date());
             Product productResponse = productRepository.save(product);
             log.debug("[{}][deleteProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);

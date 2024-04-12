@@ -60,8 +60,9 @@ public abstract class BaseEntity implements Serializable {
         }
     }
 
-    @Column(name = "status")
-    private Boolean status;
+
+    @Column(columnDefinition = "boolean default false",name = "status")
+    private boolean status;
 
 
 }

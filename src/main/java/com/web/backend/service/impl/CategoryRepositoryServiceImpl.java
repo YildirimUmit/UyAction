@@ -48,12 +48,35 @@ public class CategoryRepositoryServiceImpl {
         return category;
     }
 
+    public Optional<Category> getCategoryStatus(Language language, Long  categoryId) {
+        log.debug("[{}][getCategory] -> request categoryId: {}", this.getClass().getSimpleName(), categoryId);
+        Optional<Category> category = categoryRepository.findByIdAndStatusTrue(categoryId);
+        if (Objects.isNull(category)) {
+            throw new NotFoundException(language, FriendlyMessageCodes.NOT_CREATED_EXCEPTION, "Category not found for Category id: " + categoryId);
+        }
+        log.debug("[{}][getCategory] -> response: {}", this.getClass().getSimpleName(), category);
+        return category;
+    }
+
     public Optional<Category> updateCategory(Language language, CategoryDto  categoryDto ) {
         log.debug("[{}][updateCategory] -> request: {} {}", this.getClass().getSimpleName(),  categoryDto);
         Category categoryRequest=modelMapper1.map(categoryDto,Category.class);
         Category categoryResponse=categoryRepository.save(categoryRequest);
         log.debug("[{}][updateCategory] -> response: {}", this.getClass().getSimpleName(), categoryResponse);
+
         return getCategory(language,categoryResponse.getId());
     }
+
+
+    public Optional<Category> deleteCategory(Language language, CategoryDto  categoryDto){
+        log.debug("[{}][deleteCategory] -> request: {} {}", this.getClass().getSimpleName(),  categoryDto);
+        Category categoryRequest=modelMapper1.map(categoryDto,Category.class);
+        categoryRequest.setStatus(true);
+        Category categoryResponse=categoryRepository.save(categoryRequest);
+        log.debug("[{}][deleteCategory] -> response: {}", this.getClass().getSimpleName(), categoryResponse);
+        return getCategoryStatus(language,categoryResponse.getId());
+
+    }
+
 
 }
