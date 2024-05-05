@@ -50,14 +50,14 @@ public class NotificationProducer   {  //  implements RabbitTemplate.ConfirmCall
     }
 
 
-    public void sendToQueueMaileInfo(Notification notification) {
-
-//        rabbitTemplate.setConfirmCallback(this);
-//        rabbitTemplate.setReturnCallback(this);
-        System.out.println("Notification Sent ID : " + notification.getNotificationId());
-        rabbitTemplate.convertAndSend(exchangeName, routingNameMaileInfo, notification);
-
-    }
+//    public void sendToQueueMaileInfo(Notification notification) {
+//
+////        rabbitTemplate.setConfirmCallback(this);
+////        rabbitTemplate.setReturnCallback(this);
+//        System.out.println("Notification Sent ID : " + notification.getNotificationId());
+//        rabbitTemplate.convertAndSend(exchangeName, routingNameMaileInfo, notification);
+//
+//    }
 
 //    @Override
 //    public void confirm(CorrelationData correlationData, boolean b, String s) {// message sucesfuly send
