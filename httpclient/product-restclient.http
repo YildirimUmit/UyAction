@@ -14,7 +14,7 @@ Content-Type: application/json
 %}
 
 ###
-POST http://localhost:8080/api/auth/forgetpassword/umityild@gmail.com
+POST http://{{HOST}}/api/auth/forgetpassword/umityild@gmail.com
 Content-Type: application/json
 Authorization: {{auth_token}}
 Content-Language: TR

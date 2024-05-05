@@ -1,16 +1,12 @@
 package com.web.backend.producer;
 
 
-
 import com.web.backend.model.*;
-import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.*;
 import org.springframework.amqp.rabbit.core.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import javax.annotation.*;
-import java.util.*;
 
 @Service
 public class NotificationProducer   {  //  implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback  {
