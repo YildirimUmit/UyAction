@@ -17,9 +17,6 @@ import java.util.*;
 @Service
 public class MaileSendService {
     @Autowired
-    RabbitTemplate amqpTemplate;
-
-    @Autowired
     private NotificationProducer producer;
 
     @Autowired
