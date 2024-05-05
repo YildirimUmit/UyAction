@@ -16,6 +16,7 @@ import java.util.*;
 @Slf4j
 @Service
 public class MaileSendService {
+
     @Autowired
     private NotificationProducer producer;
 
