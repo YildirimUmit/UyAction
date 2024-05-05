@@ -1,16 +1,20 @@
 package com.web.backend.controller;
 
+import com.web.backend.dto.*;
+import com.web.backend.enums.*;
+import com.web.backend.exception.enums.*;
+import com.web.backend.exception.exceptions.*;
+import com.web.backend.exception.utils.*;
 import com.web.backend.model.Role;
 import com.web.backend.model.RoleName;
 import com.web.backend.model.User;
 import com.web.backend.payload.request.LoginRequest;
 import com.web.backend.payload.request.SignupRequest;
-import com.web.backend.payload.response.JwtResponse;
-import com.web.backend.payload.response.MessageResponse;
+import com.web.backend.payload.response.*;
 import com.web.backend.repository.RoleRepository;
 import com.web.backend.repository.UserRepository;
 import com.web.backend.security.jwt.JwtProvider;
-import com.web.backend.security.services.UserPrinciple;
+import com.web.backend.security.services.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
+import java.rmi.server.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,6 +50,9 @@ public class AuthRestAPIs {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtProvider jwtProvider;
+    @Autowired
+    MaileSendService maileSendService;
+
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
@@ -67,6 +75,61 @@ public class AuthRestAPIs {
                 userDetails.getEmail(),
                 roles));
     }
+
+
+    @PostMapping("/forgetpasswordverify")
+    public InternalApiResponse<String> forgetpasswordverify( @Valid @RequestBody ForgetPasswordVerify forgetPasswordVerify, @RequestHeader("Content-Language") Language language){
+
+        boolean isVerify=userRepository.findByEmailAndUid(forgetPasswordVerify.getMaile(),forgetPasswordVerify.getUuid());
+        if (!isVerify){
+            throw new NotFoundException(language, FriendlyMessageCodes.NOT_FOUND_EXCEPTION, "Maile not found for send " + forgetPasswordVerify.getMaile());
+        }
+
+       int update= userRepository.updatePasswordByEmailAndUid(passwordEncoder.encode(forgetPasswordVerify.getPassword()),forgetPasswordVerify.getMaile(),forgetPasswordVerify.getUuid());
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.PRODUCT_SUCCESSFULLY_DELETED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload("OK")
+                .build();
+    }
+
+    @PostMapping("/forgetpassword/{maile}")
+    public InternalApiResponse<String> forgetPassword( @Valid @PathVariable String maile, @RequestHeader("Content-Language") Language language){
+
+        if (Objects.isNull(maile)) {
+            throw new EmptyException(language, FriendlyMessageCodes.NOT_EMPTY, "Maile cannot be empty " + maile);
+        }
+
+        boolean isMaile=userRepository.existsByEmail(maile);
+        if (!isMaile){
+            throw new NotFoundException(language, FriendlyMessageCodes.NOT_FOUND_EXCEPTION, "Maile not found for send " + maile);
+        }
+
+        UUID uid=UUID.randomUUID();
+
+        int update=userRepository.updateUidByEmail(uid,maile);
+
+        if (update==1){
+            maileSendService.getSendMaileForgetPassword(uid.toString());
+        }
+
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.PRODUCT_SUCCESSFULLY_DELETED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload("OK")
+                .build();
+
+    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -122,4 +185,7 @@ public class AuthRestAPIs {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+
+
 }
