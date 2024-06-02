@@ -18,12 +18,12 @@ public interface UserRepository extends JpaRepository<User,Long> {
     int updateUidByEmail(UUID uid,String email);
 
     @Query("select (count(u) > 0) from User u where u.email = ?1 and u.uid = ?2")
-    boolean findByEmailAndUid(String email, String uid);
+    boolean findByEmailAndUid(String email, UUID uid);
 
     @Transactional
     @Modifying
     @Query("update User u set u.password = ?1 where u.email = ?2 and u.uid = ?3")
-    int updatePasswordByEmailAndUid(String password, String email, String uid);
+    int updatePasswordByEmailAndUid(String password, String email, UUID uid);
 
 
 }

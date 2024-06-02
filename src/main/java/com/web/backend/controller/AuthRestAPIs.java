@@ -5,9 +5,7 @@ import com.web.backend.enums.*;
 import com.web.backend.exception.enums.*;
 import com.web.backend.exception.exceptions.*;
 import com.web.backend.exception.utils.*;
-import com.web.backend.model.Role;
-import com.web.backend.model.RoleName;
-import com.web.backend.model.User;
+import com.web.backend.model.*;
 import com.web.backend.payload.request.LoginRequest;
 import com.web.backend.payload.request.SignupRequest;
 import com.web.backend.payload.response.*;
@@ -16,6 +14,7 @@ import com.web.backend.repository.UserRepository;
 import com.web.backend.security.jwt.JwtProvider;
 import com.web.backend.security.services.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +52,7 @@ public class AuthRestAPIs {
     @Autowired
     MaileSendService maileSendService;
 
+    ForgetPassword forgetPassword=new ForgetPassword();
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
@@ -78,14 +78,15 @@ public class AuthRestAPIs {
 
 
     @PostMapping("/forgetpasswordverify")
-    public InternalApiResponse<String> forgetpasswordverify( @Valid @RequestBody ForgetPasswordVerify forgetPasswordVerify, @RequestHeader("Content-Language") Language language){
+    public InternalApiResponse<String> getForgetpasswordverify ( @Valid @RequestBody ForgetPasswordVerify forgetPasswordVerify, @RequestHeader("Content-Language") Language language){
 
-        boolean isVerify=userRepository.findByEmailAndUid(forgetPasswordVerify.getMaile(),forgetPasswordVerify.getUuid());
+        UUID uid=UUID.fromString(forgetPasswordVerify.getUuid());
+        boolean isVerify=userRepository.findByEmailAndUid(forgetPasswordVerify.getMaile(),uid);
         if (!isVerify){
             throw new NotFoundException(language, FriendlyMessageCodes.NOT_FOUND_EXCEPTION, "Maile not found for send " + forgetPasswordVerify.getMaile());
         }
 
-       int update= userRepository.updatePasswordByEmailAndUid(passwordEncoder.encode(forgetPasswordVerify.getPassword()),forgetPasswordVerify.getMaile(),forgetPasswordVerify.getUuid());
+       int update= userRepository.updatePasswordByEmailAndUid(passwordEncoder.encode(forgetPasswordVerify.getPassword()),forgetPasswordVerify.getMaile(),uid);
 
         return InternalApiResponse.<String>builder()
                 .friendlyMessage(FriendlyMessage.builder()
@@ -99,8 +100,8 @@ public class AuthRestAPIs {
     }
 
     @PostMapping("/forgetpassword/{maile}")
-    public InternalApiResponse<String> forgetPassword( @Valid @PathVariable String maile, @RequestHeader("Content-Language") Language language){
-
+    public InternalApiResponse<ForgetPassword> forgetPassword( @Valid @PathVariable String maile, @RequestHeader("Content-Language") Language language){
+        Optional<Message> msg = null;
         if (Objects.isNull(maile)) {
             throw new EmptyException(language, FriendlyMessageCodes.NOT_EMPTY, "Maile cannot be empty " + maile);
         }
@@ -115,17 +116,24 @@ public class AuthRestAPIs {
         int update=userRepository.updateUidByEmail(uid,maile);
 
         if (update==1){
-            maileSendService.getSendMaileForgetPassword(uid.toString());
+            msg=Optional.ofNullable(maileSendService.getSendMaileForgetPassword(maile,uid.toString()));
+        }
+        if (!msg.isEmpty()){
+            forgetPassword.setMaileSendInfoJson(msg.toString());
+            forgetPassword.setMaileSendInfoEmpty(false);
+        }else{
+            forgetPassword.setMaileSendInfoJson("OK");
+            forgetPassword.setMaileSendInfoEmpty(true);
         }
 
-        return InternalApiResponse.<String>builder()
+        return InternalApiResponse.<ForgetPassword>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
                         .description(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.PRODUCT_SUCCESSFULLY_DELETED))
                         .build())
                 .httpStatus(HttpStatus.OK)
                 .hasError(false)
-                .payload("OK")
+                .payload(forgetPassword)
                 .build();
 
     }

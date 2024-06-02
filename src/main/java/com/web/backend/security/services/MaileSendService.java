@@ -7,6 +7,7 @@ import com.web.backend.model.*;
 import com.web.backend.producer.*;
 import lombok.extern.slf4j.*;
 import org.modelmapper.*;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -26,18 +27,16 @@ public class MaileSendService {
     @Value("${uyactionfront.dev.prod}")
     String url;
 
-    public void getSendMaileForgetPassword(String uuid){
+    public Message getSendMaileForgetPassword(String maile,String uuid){
         try {
             System.out.println("**********************Maile Send Forget Password*************************");
             MaileUser user=new MaileUser();
             TargetEmail targetEmail=new TargetEmail();
-            targetEmail.setEmail("umityild@gmail.com");
+            targetEmail.setEmail(maile);
             targetEmail.setLastName("Yıldırım");
             targetEmail.setFirstName("Ümit");
-            targetEmail.setMessage(url+"/"+uuid);
+            targetEmail.setMessage(url+"/auth/forgetpasswordverify"+"/"+maile+"/"+uuid);
             user.addEmails(targetEmail);
-
-
 
             Notification notification = new Notification();
             notification.setNotificationId(UUID.randomUUID().toString());
@@ -45,11 +44,11 @@ public class MaileSendService {
             notification.setMessage(jsonMaileUser.writeValueAsString(user));
             notification.setMaileType(MaileType.FORGET_PASSWORD);
             notification.setSeen(false);
-            producer.sendToQueueMaileSend(notification);
+           return producer.sendToQueueMaileSend(notification);
         }catch (Exception exception) {
             log.debug("Parse exception: {}"+ exception.getMessage());
         }
-
+        return null;
     }
 
 

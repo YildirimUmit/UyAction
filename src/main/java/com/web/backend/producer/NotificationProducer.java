@@ -2,6 +2,7 @@ package com.web.backend.producer;
 
 
 import com.web.backend.model.*;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -23,13 +24,16 @@ public class NotificationProducer   {  //  implements RabbitTemplate.ConfirmCall
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+
+    Message messageGlobal=null;
+
     @PostConstruct
     public void init() {
 
     }
 
 
-    public void sendToQueueMaileSend(Notification notification) {
+    public Message sendToQueueMaileSend(Notification notification) {
 //        rabbitTemplate.setConfirmCallback(this);
 //        rabbitTemplate.setReturnCallback(this);
 
@@ -41,10 +45,17 @@ public class NotificationProducer   {  //  implements RabbitTemplate.ConfirmCall
         );
 
         rabbitTemplate.setReturnCallback((message, replyCode, replyText, tmpExchange, tmpRoutingKey) ->
-                System.out.println("send message failed: " + message + " " + replyText)
+                        getMessage(message)
+
       );
+
+        return messageGlobal;
     }
 
+    private void getMessage(Message message){
+        messageGlobal=message;
+        System.out.println("send message failed: " + message );
+    }
 
 //    public void sendToQueueMaileInfo(Notification notification) {
 //

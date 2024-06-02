@@ -16,8 +16,19 @@ Content-Type: application/json
 ###
 POST http://{{HOST}}/api/auth/forgetpassword/umityild@gmail.com
 Content-Type: application/json
-Authorization: {{auth_token}}
 Content-Language: TR
+
+###
+POST http://{{HOST}}/api/auth/forgetpasswordverify
+Content-Type: application/json
+Content-Language: TR
+
+{
+  "password": "123456",
+  "maile": "umityild@gmail.com",
+  "uuid": "456789"
+}
+
 
 
 ###
