@@ -1,5 +1,6 @@
 package com.web.backend.payload.response;
 
+import com.web.backend.dto.*;
 import com.web.backend.repository.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ public class ProductResponse {
     private String productName;
     private Long productCreatedDate;
     private Long productUpdatedDate;
-    private List<ProductUtil> productUtils;
+    private List<ProductUtilDto> productUtils;
     private  List<ProductCategory> productCategories;
+
 }

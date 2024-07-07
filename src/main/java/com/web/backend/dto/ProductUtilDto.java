@@ -1,26 +1,28 @@
 package com.web.backend.dto;
 
 import com.fasterxml.jackson.annotation.*;
-import com.web.backend.repository.entity.*;
+import com.web.backend.enums.*;
 import lombok.*;
 import lombok.experimental.*;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * DTO for {@link com.web.backend.repository.entity.ProductUtil}
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Accessors(chain = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductUtilDto implements Serializable {
-    private Boolean status;
+    private boolean status;
+    private long productUtilId;
     private long productId;
-    private double price;
+    private long price;
     private String color;
-    private String size;
+    private Size size;
     private int quantity;
-    private List<ProductUtil> productUtils;
+    private String image;
 }

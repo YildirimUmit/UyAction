@@ -1,5 +1,6 @@
 package com.web.backend.repository.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,9 +22,10 @@ public class Product extends BaseEntity {
     @Column(name = "product_id", nullable = false,insertable = true,updatable = false)
     private Long productId;
 
+
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "product_id")
-    private List<ProductUtil> productUtils = new ArrayList<>();
+    private List<ProductUtil> productUtils = new ArrayList<ProductUtil>();
 
     @Column(name = "product_name")
     private String productName;

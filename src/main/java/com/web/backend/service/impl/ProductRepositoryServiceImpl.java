@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.*;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.*;
 import java.util.*;
 
 @Slf4j
@@ -48,9 +49,11 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
     }
 
     @Override
+    @Transactional
     public List<Product> getProducts(Language language) {
         log.debug("[{}][getProducts]", this.getClass().getSimpleName());
         List<Product> products = productRepository.getAllByStatusFalse();
+
         if (products.isEmpty()) {
             throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION, "Products not found");
         }

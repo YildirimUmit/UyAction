@@ -1,5 +1,6 @@
 package com.web.backend.repository.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import com.web.backend.enums.*;
 import com.web.backend.enums.Size;
 import lombok.*;
@@ -18,6 +19,7 @@ import javax.validation.constraints.*;
 public class ProductUtil  extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_util_id", nullable = false)
     private long productUtilId;
 
@@ -36,6 +38,12 @@ public class ProductUtil  extends BaseEntity {
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
+
+
+    @Column(name= "image",columnDefinition = "Text")
+    private String image;
+
+
 
 
 }

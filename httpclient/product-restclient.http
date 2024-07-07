@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "username": "umit",
-  "password": "123456"
+  "password": "5"
 }
 
 > {%
@@ -55,9 +55,10 @@ Authorization: {{auth_token}}
 Content-Language: TR
 
 {
-  "productName": "Skye Clean Beyaz Kadın Sneake 1",
-  "quantity": 20,
-  "brand": "Puma"
+  "productName": "Horizon Sporty Siyah Erkek Ayakkabı",
+  "quantity": 22,
+  "brand": "Horizon"
+
 }
 
 
@@ -72,9 +73,15 @@ Content-Language: TR
   "price": 100,
   "status": false,
   "color": "#ffa500",
-  "productId": 1,
+  "productId": 67,
   "quantity": 10,
-  "size": "XL"
+  "size": "1",
+  "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAFwAXAMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABwIDBAUGCAH/xAA0EAABAwIFAAgFAgcAAAAAAAABAAIDBBEFBhIhMQcTIkFRYXGRMlJygaHB0SMzNIKTsfD/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAwDAQACEQMRAD8AmlERAREQEREBERAREQEREBEWNiVW2goJ6t4u2Fheb8ADvPgPE+CDJRa4YxSQimjxGopqapqHBkcZmBEriLjQTbUCONlsUBFpM15hgy1RRV1ZpNO6URuaN3knjSO/vJ8gtjheI0mK0MVbh8zZqeUXa5p/B8D5IMpERAREQEREBEWlzrXOw3KGMVkZtJHRyaDfhxFh+SEEB9IuIw1+dKwYfoZQ0juop+p2aCN3ubbi79R29e9TRlHPOEYtglNJXYnS09eyICpjmkEZDwN3DVa4PO3jZecqaN0rmwta5zrbNaP+7grxa1otufIu3H6KDuelrMUGO5ghiw2tjqqClpwGOiJLescSXkHg7Bm4uPyucy5mrF8rzyyYROGtkN5IJG6opDa1yPHzBBWlc12rY29VSQTsRcd9t0Ho3JOfcLzPTwwumjp8VLP4tI421EclhPxDa/iO9dcvIoIa4FpIcOCDuFIGUulTGMLeIcZc7EqNrA1usgSst36rdo2+b3SiekXG4Z0n5Tr2gSYgaKQjdlXGWW/u3b+V1dHV01fA2ooamGphcLtkhkD2n7hUX0REBQt03Y3UyY3T4JFO9lJFTiSZkcpAke47Bw4OkNBH1KaVFXSZkWPEMQmxnC3mGqe0GeB8fYmcNtQdfsm3qDYcblBEDKZ176ri/orggNjfT5WKuzNNPJ1MwLJASCHBUtIdaztSyLEkMluyAR4NVkNLj2hY+i2LaeaQdiCR30xk/oqjQ1oH9HVf4H/sg19jxf7FNJ7m7+XCyXh8H89ro/rGn/aoNRGSLSs347QQYuh7ubt8LhfaeSpp3mSnnmp3974nlh9wsnrY3ODBI0uPDQbn2XVZbyTVYtVwurZOpoXDVI+I3ktbgCxF+OfyqJV6J8arscyhHNib3yVEEz6frn8ytaAQ4+Js6xPeQuyWuy9hVHgmD02HYcxzaeFu2r4nEm5cfMkkrYqgnPKIgoMMR5jafsghiHEbPZVogp6tnyN9k6tnyN9lUiCgxRkWMbT6hWnUNG74qSA+sTf2WQiCw2ipG/BSwN9IwFdbGxnwMa30FlUiAiIgIiICIiAiIgIiICIiAiIg/9k="
+
+
+
+
+
 }
 
 
@@ -100,6 +107,6 @@ Content-Language: TR
 
 {
   "categoryId":1,
-  "productId": 1
+  "productId": 67
 
 }

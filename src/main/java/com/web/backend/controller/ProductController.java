@@ -2,6 +2,7 @@ package com.web.backend.controller;
 
 
 
+import com.google.common.io.*;
 import com.web.backend.dto.*;
 import com.web.backend.enums.*;
 import com.web.backend.exception.enums.*;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.*;
 import javax.validation.*;
-import java.util.List;
+import java.io.*;
+import java.nio.charset.*;
+import java.util.*;
+import java.util.regex.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -159,6 +163,8 @@ class ProductController {
 
         ProductUtil productUtil=productUtilService.createProductUtil(language,productUtilDto);
         ProductUtilDto productUtilDto1=modelMapper.map(productUtil,ProductUtilDto.class);
+
+   ;
         return InternalApiResponse.<ProductUtilDto>builder()
                 .friendlyMessage(FriendlyMessage.builder()
                         .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCESS))
@@ -171,32 +177,34 @@ class ProductController {
 
     }
 
-//    @ResponseStatus(HttpStatus.OK)
-//    @PutMapping(value = "/update/}")
-//    public InternalApiResponse<ProductResponse> updateProductUtil(@RequestHeader("Content-Language") Language language,
-//                                                                  @RequestBody ProductUtilDto productUtilDto){
-//
-//
-//
-//
-//    }
-
-
-
-
-
     private List<ProductResponse> convertProductResponseList(List<Product> productList) {
         return productList.stream()
                 .map(arg -> ProductResponse.builder()
                         .productId(arg.getProductId())
                         .productName(arg.getProductName())
-                        .productUtils(arg.getProductUtils())
+                        .productUtils(convertProductUtilDto(arg.getProductUtils()))
                         .productCategories(arg.getProductCategories())
 //                        .productCreatedDate(arg.getCreatedAt().getTime())
 //                        .productUpdatedDate(arg.getUpdateAt().getTime())
                         .build())
                 .collect(Collectors.toList());
     }
+
+    private List<ProductUtilDto> convertProductUtilDto(List<ProductUtil> productUtils){
+        return productUtils.stream().map(arg -> {
+
+                return ProductUtilDto.builder()
+                        .productUtilId(arg.getProductUtilId())
+                        .productId(arg.getProductId())
+                        .price(arg.getPrice())
+                        .color(arg.getColor())
+                        .size(arg.getSize())
+                        .quantity(arg.getQuantity())
+                        .image(arg.getImage()).build();
+
+        }).collect(Collectors.toList());
+     }
+
 
     private ProductResponse convertProductResponse(Product product) {
         return ProductResponse.builder()
